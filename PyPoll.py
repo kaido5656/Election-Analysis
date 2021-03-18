@@ -50,47 +50,61 @@ with open(file_to_load) as election_data:
         
         #add a vote to that canidate's coount
         canidate_votes[canidate_name] += 1
-    #determine the percentage of votes for each canidate by looping through the counts
-    #iterate through the canidate list
-    for canidate_name in canidate_votes:
 
-        #retreive vote count of a canidate
-        votes = canidate_votes[canidate_name]
-        #calculate the percent of votes
-        vote_percentage = float(votes) / float(total_votes) *100
-        #print the canidate name and percentage of votes
-        
-        print(f"{canidate_name}: {vote_percentage:.1f}%  ({votes:,})\n")
-
-        #determine winning vote count
-        if (votes > winning_count) and (vote_percentage > winning_percentage):
-            # if true then set winningcount = votes and winningpercent = vote percent
-            winning_count = votes
-            winning_percentage = vote_percentage
-            #and set the winning canidate equal to the canidates name
-            winning_canidate = canidate_name
-
-    winning_canidate_summary = (
+    #save the results to our text file
+    with open(file_to_save, "w") as txt_file:
+        election_results = (
+            f"\nElection Results\n"
             f"------------------------\n"
-            f"Winner: {winning_canidate}\n"
-            f"Winning Vote Count: {winning_count:,}\n"
-            f"winning Percentage: {winning_percentage:.1f}%\n"
+            f"Total votes :{total_votes:,}\n"
             f"------------------------\n" )
-    print(winning_canidate_summary)
-#print total votes and canidate list
+        print(election_results, end="")
+        #save the final vote count to the text file
+        txt_file.write(election_results)
+        #determine the percentage of votes for each canidate by looping through the counts
+        #iterate through the canidate list
+        for canidate_name in canidate_votes:
 
-#print(canidate_votes)
-#print(canidate_options)
-#print(total_votes)
-election_data.close()
+            #retreive vote count of a canidate
+            votes = canidate_votes[canidate_name]
+            #calculate the percent of votes
+            vote_percentage = float(votes) / float(total_votes) *100
+            #print the canidate name and percentage of votes
+            
+            canidate_results = (f"{canidate_name}: {vote_percentage:.1f}%  ({votes:,})\n")
+            print(canidate_results)
+            txt_file.write(canidate_results)
+            #determine winning vote count
+            if (votes > winning_count) and (vote_percentage > winning_percentage):
+                # if true then set winningcount = votes and winningpercent = vote percent
+                winning_count = votes
+                winning_percentage = vote_percentage
+                #and set the winning canidate equal to the canidates name
+                winning_canidate = canidate_name
 
-#using the with statement open the file as a text file
+        winning_canidate_summary = (
+                f"------------------------\n"
+                f"Winner: {winning_canidate}\n"
+                f"Winning Vote Count: {winning_count:,}\n"
+                f"Winning Percentage: {winning_percentage:.1f}%\n"
+                f"------------------------\n" )
+        print(winning_canidate_summary)
+        #saved the winning canidates results to the text file
+        txt_file.write(winning_canidate_summary)
+    #print total votes and canidate list
 
-with open(file_to_save, "w") as txt_file:
-    #write some data to the file
-    #txt_file.write("Hello World")
-    txt_file.write("Counties in the Election\n--------------------\nArapahoe\nDenver\nJefferson")
-#close the file
-txt_file.close()
+    #print(canidate_votes)
+    #print(canidate_options)
+    #print(total_votes)
+    election_data.close()
+
+    #using the with statement open the file as a text file
+
+    #with open(file_to_save, "w") as txt_file:
+        #write some data to the file
+        #txt_file.write("Hello World")
+        #txt_file.write("Counties in the Election\n--------------------\nArapahoe\nDenver\nJefferson")
+    #close the file
+    #txt_file.close()
 
 
